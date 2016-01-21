@@ -284,7 +284,7 @@ void agent_t::coste_uniforme_dinamico(void)
 {
 	std::deque<trayectoria_t> trayectorias_abiertas;
 	std::deque<trayectoria_t> trayectorias_cerradas;
-	trayectoria_t ramificaciones;
+	trayectoria_t eliminada;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
 	maze_->at(1,1) = tile::marked;
@@ -292,8 +292,8 @@ void agent_t::coste_uniforme_dinamico(void)
 
 	//While lista not empty and not in final node
 	while(!trayectorias_abiertas.empty() && !(trayectorias_abiertas.front().back().x() == end_.x() && trayectorias_abiertas.front().back().y() == end_.y())){
-		eliminar_trayectoria_de_abierta_e_introducir_en_cerrada_eliminando_similares_de_mayor_coste(trayectorias_abiertas, trayectorias_cerradas, ramificaciones);
-		ramificar_y_anadir_abierta(trayectorias_abiertas, ramificaciones);
+		eliminar_trayectoria_de_abierta_e_introducir_en_cerrada_eliminando_similares_de_mayor_coste(trayectorias_abiertas, trayectorias_cerradas, eliminada);
+		ramificar_y_anadir_abierta(trayectorias_abiertas, eliminada);
 		sort_by_acumulated_cost(trayectorias_abiertas);
 		eliminar_trayectorias_equivalentes(trayectorias_abiertas, trayectorias_cerradas);
 	}
@@ -303,24 +303,24 @@ void agent_t::coste_uniforme_dinamico(void)
 		}
 }
 
-void agent_t::eliminar_trayectoria_de_abierta_e_introducir_en_cerrada_eliminando_similares_de_mayor_coste(std::deque<trayectoria_t>& trayectorias_abiertas, std::deque<trayectoria_t>& trayectorias_cerradas, trayectoria_t& ramificaciones)
+void agent_t::eliminar_trayectoria_de_abierta_e_introducir_en_cerrada_eliminando_similares_de_mayor_coste(std::deque<trayectoria_t>& trayectorias_abiertas, std::deque<trayectoria_t>& trayectorias_cerradas, trayectoria_t& eliminada)
 {
 	auto trayectoria = trayectorias_abiertas.front();
-	ramificaciones = trayectorias_abiertas.front();
+	eliminada = trayectorias_abiertas.front();
 	trayectorias_abiertas.pop_front();
 	insertar_buscando_similares_y_eliminando_la_de_mayor_coste(trayectorias_cerradas, trayectoria);
 }
 
-void agent_t::ramificar_y_anadir_abierta(std::deque<trayectoria_t>& trayectorias_abiertas, trayectoria_t& ramificaciones)
+void agent_t::ramificar_y_anadir_abierta(std::deque<trayectoria_t>& trayectorias_abiertas, trayectoria_t& eliminada)
 {
 	unsigned nx, ny;
 	for(int i = dir::n; i <= dir::w; i+=2){
-		nx = ramificaciones.back().x();
-		ny = ramificaciones.back().y();
+		nx = eliminada.back().x();
+		ny = eliminada.back().y();
 		common::coord(nx, ny, i);
 		if(maze_->at(nx, ny) == tile::empty){
 			maze_->at(nx, ny) = tile::marked;
-			trayectoria_t dummy = ramificaciones;
+			trayectoria_t dummy = eliminada;
 			dummy.push_back(point_t(nx, ny));
 			trayectorias_abiertas.push_front(dummy); //lo ponemos al final
 		}
