@@ -17,6 +17,7 @@ void agent_t::solve(unsigned mode)
 		case algorithm::escalada: escalada(); break;
 		case algorithm::primero_el_mejor: primero_el_mejor(); break;
 		case algorithm::coste_uniforme: coste_uniforme(); break;
+		case algorithm::coste_uniforme_subestimacion: coste_uniforme_subestimacion(); break;
 	}
 }
 
@@ -112,6 +113,17 @@ void agent_t::sort_by_acumulated_cost(std::deque<trayectoria_t>& trayectorias)
 		std::size_t min = i;
 		for(std::size_t j = i + 1; j < trayectorias.size(); j++)
 			if(trayectorias[j].size() < trayectorias[min].size())
+				min = j;
+		std::swap(trayectorias[i], trayectorias[min]);
+	}
+}
+
+void agent_t::sort_by_acumulated_total_estimated_cost(std::deque<trayectoria_t>& trayectorias)
+{
+	for(std::size_t i = 0; i < trayectorias.size(); i++){
+		std::size_t min = i;
+		for(std::size_t j = i + 1; j < trayectorias.size(); j++)
+			if((trayectorias[j].size() + h(trayectorias[j].back())) < (trayectorias[min].size() + h(trayectorias[min].back())))
 				min = j;
 		std::swap(trayectorias[i], trayectorias[min]);
 	}
@@ -229,4 +241,40 @@ void agent_t::anadir_descendientes_y_ordenar_segun_coste_acumulado(std::deque<tr
 		}
 	}
 	sort_by_acumulated_cost(lista_trayectorias);
+}
+
+void agent_t::coste_uniforme_subestimacion(void)
+{
+	std::deque<trayectoria_t> lista_trayectorias;
+	trayectoria_t trayectoria_inicial;
+	trayectoria_inicial.push_back(start_);
+	maze_->at(1,1) = tile::marked;
+	lista_trayectorias.push_back(trayectoria_inicial);
+
+	//While lista not empty and not in final node
+	while(!lista_trayectorias.empty() && !(lista_trayectorias.front().back().x() == end_.x() && lista_trayectorias.front().back().y() == end_.y())){
+		auto trayectoria = lista_trayectorias.front();
+		lista_trayectorias.pop_front();
+		anadir_descendientes_y_ordenar_segun_coste_total_estimado(lista_trayectorias, trayectoria);
+	}
+	for(unsigned i = 0; i < lista_trayectorias.front().size(); i++){
+		maze_->at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
+	}
+}
+
+void agent_t::anadir_descendientes_y_ordenar_segun_coste_total_estimado(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria)
+{
+	unsigned nx, ny;
+	for(int i = dir::n; i <= dir::w; i+=2){
+		nx = trayectoria.back().x();
+		ny = trayectoria.back().y();
+		common::coord(nx, ny, i);
+		if(maze_->at(nx, ny) == tile::empty){
+			maze_->at(nx, ny) = tile::marked;
+			trayectoria_t dummy = trayectoria;
+			dummy.push_back(point_t(nx, ny));
+			lista_trayectorias.push_front(dummy); //lo ponemos al final
+		}
+	}
+	sort_by_acumulated_total_estimated_cost(lista_trayectorias);
 }
