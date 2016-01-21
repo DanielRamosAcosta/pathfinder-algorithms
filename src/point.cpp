@@ -19,3 +19,8 @@ unsigned& point_t::y(void)
 {
 	return y_;
 }
+
+bool point_t::operator==(point_t point)
+{
+	return x_==point.x() && y_ == point.y();
+}

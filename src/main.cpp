@@ -6,6 +6,6 @@ int main(void){
 	maze_t* maze = new maze_t(20,20);
 	maze->generate(4);
 	agent_t robot(maze);
-	robot.solve(algorithm::coste_uniforme_subestimacion);
+	robot.solve(algorithm::coste_uniforme_dinamico);
 	maze->print(std::cout);
 }

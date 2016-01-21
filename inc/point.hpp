@@ -9,4 +9,5 @@ public:
 	point_t(unsigned x, unsigned y);
 	unsigned& x(void);
 	unsigned& y(void);
+	bool operator==(point_t);
 };
