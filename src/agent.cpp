@@ -373,5 +373,23 @@ void agent_t::insertar_buscando_similares_y_eliminando_la_de_mayor_coste(std::de
 
 void agent_t::a_estrella(void)
 {
-	
+	std::deque<trayectoria_t> trayectorias_abiertas;
+	std::deque<trayectoria_t> trayectorias_cerradas;
+	trayectoria_t eliminada;
+	trayectoria_t trayectoria_inicial;
+	trayectoria_inicial.push_back(start_);
+	maze_->at(1,1) = tile::marked;
+	trayectorias_abiertas.push_back(trayectoria_inicial);
+
+	//While lista not empty and not in final node
+	while(!trayectorias_abiertas.empty() && !(trayectorias_abiertas.front().back().x() == end_.x() && trayectorias_abiertas.front().back().y() == end_.y())){
+		eliminar_trayectoria_de_abierta_e_introducir_en_cerrada_eliminando_similares_de_mayor_coste(trayectorias_abiertas, trayectorias_cerradas, eliminada);
+		ramificar_y_anadir_abierta(trayectorias_abiertas, eliminada);
+		sort_by_acumulated_total_estimated_cost(trayectorias_abiertas);
+		eliminar_trayectorias_equivalentes(trayectorias_abiertas, trayectorias_cerradas);
+	}
+	if(!trayectorias_abiertas.empty())
+		for(unsigned i = 0; i < trayectorias_abiertas.front().size(); i++){
+			maze_->at(trayectorias_abiertas.front()[i].x(), trayectorias_abiertas.front()[i].y()) = tile::path;
+		}
 }
