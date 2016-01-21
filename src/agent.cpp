@@ -16,6 +16,7 @@ void agent_t::solve(unsigned mode)
 		case algorithm::profundidad: profundidad(); break;
 		case algorithm::escalada: escalada(); break;
 		case algorithm::primero_el_mejor: primero_el_mejor(); break;
+		case algorithm::coste_uniforme: coste_uniforme(); break;
 	}
 }
 
@@ -89,7 +90,7 @@ void agent_t::anadir_descendientes_al_principio(std::deque<trayectoria_t>& lista
 	}
 }
 
-long double agent_t::h(point_t origen)
+double agent_t::h(point_t origen)
 {
 	return (sqrt(((origen.x()-end_.x())*(origen.x()-end_.x()) + (origen.y()-end_.y())*(origen.y()-end_.y()))));
 }
@@ -183,4 +184,9 @@ void agent_t::anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_tr
 		}
 	}
 	sort(lista_trayectorias);
+}
+
+void agent_t::coste_uniforme(void)
+{
+
 }

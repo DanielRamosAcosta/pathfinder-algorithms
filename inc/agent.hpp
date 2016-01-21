@@ -12,7 +12,8 @@ enum algorithm{
 	anchura = 0,
 	profundidad = 1,
 	escalada = 2,
-	primero_el_mejor = 3
+	primero_el_mejor = 3,
+	coste_uniforme = 4
 };
 
 typedef std::deque<point_t> trayectoria_t;
@@ -35,7 +36,7 @@ public:
 	void anadir_descendientes_al_principio(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
 
 	//Búsquedas usando una función heurística (por proximidad al objetivo)
-	long double h(point_t origen);
+	double h(point_t origen);
 	void sort(std::deque<trayectoria_t>& trayectorias);
 	void imprime(std::deque<trayectoria_t> lista_trayectorias);
 
@@ -44,4 +45,6 @@ public:
 
 	void primero_el_mejor(void);
 	void anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
+
+	void coste_uniforme(void);
 };

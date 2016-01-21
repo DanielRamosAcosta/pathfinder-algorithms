@@ -6,6 +6,6 @@ int main(void){
 	maze_t* maze = new maze_t(20,20);
 	maze->generate(4);
 	agent_t robot(maze);
-	robot.solve(algorithm::escalada);
+	robot.solve(algorithm::coste_uniforme);
 	maze->print(std::cout);
 }
