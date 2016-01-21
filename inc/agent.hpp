@@ -37,7 +37,8 @@ public:
 
 	//Búsquedas usando una función heurística (por proximidad al objetivo)
 	double h(point_t origen);
-	void sort(std::deque<trayectoria_t>& trayectorias);
+	void sort_by_heuristic(std::deque<trayectoria_t>& trayectorias);
+	void sort_by_acumulated_cost(std::deque<trayectoria_t>& trayectorias);
 	void imprime(std::deque<trayectoria_t> lista_trayectorias);
 
 	void escalada(void);
@@ -47,4 +48,5 @@ public:
 	void anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
 
 	void coste_uniforme(void);
+	void anadir_descendientes_y_ordenar_segun_coste_acumulado(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
 };
