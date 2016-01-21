@@ -19,6 +19,7 @@ void agent_t::solve(unsigned mode)
 		case algorithm::coste_uniforme: coste_uniforme(); break;
 		case algorithm::coste_uniforme_subestimacion: coste_uniforme_subestimacion(); break;
 		case algorithm::coste_uniforme_dinamico: coste_uniforme_dinamico(); break;
+		case algorithm::a_estrella: a_estrella(); break;
 	}
 }
 
@@ -368,4 +369,9 @@ void agent_t::insertar_buscando_similares_y_eliminando_la_de_mayor_coste(std::de
 			}
 		}
 	}
+}
+
+void agent_t::a_estrella(void)
+{
+	
 }

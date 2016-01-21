@@ -15,7 +15,8 @@ enum algorithm{
 	primero_el_mejor = 3,
 	coste_uniforme = 4,
 	coste_uniforme_subestimacion = 5,
-	coste_uniforme_dinamico = 6
+	coste_uniforme_dinamico = 6,
+	a_estrella = 7
 };
 
 typedef std::deque<point_t> trayectoria_t;
@@ -61,4 +62,6 @@ public:
 	void ramificar_y_anadir_abierta(std::deque<trayectoria_t>& trayectorias_abiertas, trayectoria_t& ramificaciones);
 	void eliminar_trayectorias_equivalentes(std::deque<trayectoria_t>& trayectorias_abiertas, std::deque<trayectoria_t>& trayectorias_cerradas);
 	void insertar_buscando_similares_y_eliminando_la_de_mayor_coste(std::deque<trayectoria_t>& lista_tra, trayectoria_t trayectoria);
+
+	void a_estrella(void);
 };
