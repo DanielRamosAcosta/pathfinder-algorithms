@@ -63,7 +63,6 @@ void agent_t::profundidad(void)
 	std::deque<trayectoria_t> lista_trayectorias;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
 	lista_trayectorias.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node

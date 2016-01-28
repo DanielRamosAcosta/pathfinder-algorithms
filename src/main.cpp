@@ -17,8 +17,8 @@ anchura = 0,
 int main(void){
 	maze_t* maze = new maze_t(20,20);
 	agent_t robot(maze);
-	std::cout << "Siguiendo la estrategia: a_estrella" << std::endl;
+	std::cout << "Siguiendo la estrategia: profundidad" << std::endl;
 	maze->generate(4);
-	robot.solve(algorithm::a_estrella);
+	robot.solve(algorithm::profundidad);
 	maze->print(std::cout);
 }
