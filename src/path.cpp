@@ -1,6 +1,5 @@
 #include "path.hpp"
 
-
 path_t::path_t(void):
 	start_(nullptr),
 	end_(nullptr)
@@ -18,6 +17,17 @@ path_t::~path_t(void)
 	end_ = nullptr;
 }
 
+void path_t::push(point_t point)
+{
+	if(end_ == nullptr){
+		start_ = end_ = new node_t(point);
+	}
+	else{
+		end_->next() = new node_t(point);
+		end_ = end_->next();
+	}
+}
+
 point_t& path_t::last(void)
 {
 	return end_->point();
@@ -25,24 +35,41 @@ point_t& path_t::last(void)
 
 point_t& path_t::operator[](unsigned index)
 {
-	if(index >= sz_)
-		exit(1);//TODO: throw exception
-
-	node_t* ptr = nullptr;
-	if(index/2 < sz_/2){
-		unsigned it = 0;
-		ptr = start_;
-		while(it != index){
-			it++;
-			ptr = ptr->next();
-		}
+	node_t* ptr = start_;
+	unsigned it = 0;
+	while(it != index && ptr != nullptr){
+		it++;
+		ptr = ptr->next();
 	}
-	else{
-		unsigned it = sz_-1;
-		while(it != index){
-			it--;
-			ptr = ptr->prev();
-		}
-	}
+	// TODO:
+	// if(ptr == nullptr)
+	// 	throw ????
 	return ptr->point();
+}
+
+unsigned path_t::acumulated_cost(void)
+{
+	unsigned cost = 0;
+	node_t* ptr = start_;
+	while(ptr != nullptr){
+		cost += ptr->cost();
+		ptr = ptr->next();
+	}
+	return cost;
+}
+
+std::ostream& operator<<(std::ostream& os, const path_t& path){
+	node_t* ptr = path.start_;
+	bool first = true;
+
+	while(ptr != nullptr){
+		if(first){
+			os << ptr->point();
+			first = false;
+		}
+		else
+			os  << "->" << ptr->point();
+		ptr = ptr->next();
+	}
+	return os;
 }

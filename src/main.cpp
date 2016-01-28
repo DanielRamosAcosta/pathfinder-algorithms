@@ -2,6 +2,8 @@
 #include <iostream>
 #include "agent.hpp"
 
+#include "path.hpp"
+
 /*
 anchura = 0,
 	profundidad = 1,
@@ -21,4 +23,9 @@ int main(void){
 	maze->generate(4);
 	robot.solve(algorithm::profundidad);
 	maze->print(std::cout);
+
+	path_t mypath;
+	mypath.push(point_t(1,1));
+	mypath.push(point_t(2,1));
+	std::cout << mypath << std::endl;
 }

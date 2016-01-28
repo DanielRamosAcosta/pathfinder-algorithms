@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 class point_t{
 private:
 	unsigned x_;
@@ -10,4 +12,6 @@ public:
 	unsigned& x(void);
 	unsigned& y(void);
 	bool operator==(point_t);
+
+	friend std::ostream& operator<<(std::ostream &os, const point_t &point);
 };
