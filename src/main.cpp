@@ -27,5 +27,7 @@ int main(void){
 	path_t mypath;
 	mypath.push(point_t(1,1));
 	mypath.push(point_t(2,1));
+	mypath.push(point_t(4,2));
 	std::cout << mypath << std::endl;
+	std::cout << mypath.acumulated_cost() << std::endl;
 }
