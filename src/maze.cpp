@@ -50,29 +50,34 @@ bool maze_t::adjacent_ocupable_cell_exists(unsigned x, unsigned y)
 		ny = y;
 		common::coord(nx, ny, i);
 		if(reachable(nx, ny) && map_.at(nx, ny) == tile::obstacle)
-			if(only_one_adyacent(nx, ny))
+			if(only_one_adyacent(nx, ny, i))
 				return true;
 	}
 	return false;
 }
 
-bool maze_t::only_one_adyacent(unsigned x, unsigned y)
+bool maze_t::only_one_adyacent(unsigned x, unsigned y, dir previous)
 {
-	// We know (nx, ny) is reachable, now we must check if has any adyacent cells
-	//  O O O
-	//  O ? X
-	//  O O O  Check arround ? if all are empty except X.
-	unsigned counter = 0;
-	unsigned nx, ny = 0;
-	for(unsigned i = dir::n; i<= dir::nw; i++){
-		nx = x;
-		ny = y;
-		common::coord(nx, ny, i);
-		if(map_.at(nx, ny) == tile::empty)
-			counter++;
-		if(counter > 2)
-			return false;
+	unsgined displacement = 0;
+	switch(previous){
+		case dir::n: displacement = 4; break;
+		case dir::e: displacement = 6; break;
+		case dir::w: displacement = 2; break;
+		default: break;
 	}
+
+	point_t point(x, y);
+
+	for(int i = 0; i < 5; i++){
+		int ri = (i + displacement)%8;
+		dir direction = static_cast<dir>(ri);
+		point = point + direction;
+
+		if(maze_->at(point) == tile::empty){
+			return false;//TODO: AQUIII ME QUEDEEEEEE
+		}
+	}
+
 	return true;
 }
 

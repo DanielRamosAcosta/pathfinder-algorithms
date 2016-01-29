@@ -44,8 +44,8 @@ void agent_t::push_back_childs(list_t& paths, path_t path)
 	for(int i = dir::n; i <= dir::w; i+=2){
 		point_t last = path.last();
 		dir direction = static_cast<dir>(i);
-
 		last = last + direction;
+
 		if(maze_->at(last) != tile::obstacle){
 			if(!path.is(last)){
 				maze_->at(last) = tile::marked;
