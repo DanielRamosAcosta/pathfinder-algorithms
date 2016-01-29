@@ -26,5 +26,6 @@ bool point_t::operator==(point_t point)
 }
 
 std::ostream& operator<<(std::ostream& os, const point_t& point){
-	return os << "(" << point.x_ << ", " << point.y_ << ")";
+	os << "(" << point.x_ << ", " << point.y_ << ")";
+	return os;
 }
