@@ -1,3 +1,5 @@
+#pragma once
+
 #include <deque>
 
 #include "common.hpp"
@@ -17,7 +19,10 @@ public:
 	path_t pop_front(void);
 	path_t pop_at(unsigned index);
 
+	path_t& front(void);
+
 	void sort(void);
+	bool empty(void);
 
 	friend std::ostream& operator<<(std::ostream &os, const list_t &list);
 };

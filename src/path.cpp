@@ -77,6 +77,17 @@ path_t& path_t::operator=(const path_t& other)
 	return *this;
 }
 
+unsigned path_t::size(void)
+{
+	unsigned sz = 0;
+	node_t* ptr = start_;
+	while(ptr != nullptr){
+		sz++;
+		ptr = ptr->next();
+	}
+	return sz;
+}
+
 unsigned& path_t::cost(void)
 {
 	return cost_;
@@ -92,6 +103,48 @@ unsigned path_t::acumulated_cost(void)
 	}
 	return cost;
 }
+
+bool path_t::is(const point_t& point)
+{
+	node_t* ptr = start_;
+	while(ptr != nullptr){
+		if(ptr->point() == point)
+			return true;
+		ptr = ptr->next();
+	}
+	return false;
+}
+
+bool path_t::operator==(path_t& other)
+{
+	return last() == other.last();
+}
+
+bool path_t::operator!=(path_t& other)
+{
+	return last() != other.last();
+}
+
+bool path_t::operator<(path_t& other)
+{
+	return cost_ < other.cost_;
+}
+
+bool path_t::operator<=(path_t& other)
+{
+	return cost_ < other.cost_;
+}
+
+bool path_t::operator>(path_t& other)
+{
+	return cost_ < other.cost_;
+}
+
+bool path_t::operator>=(path_t& other)
+{
+	return cost_ < other.cost_;
+}
+
 
 std::ostream& operator<<(std::ostream& os, const path_t& path){
 	node_t* ptr = path.start_;

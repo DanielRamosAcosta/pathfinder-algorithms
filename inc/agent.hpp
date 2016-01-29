@@ -6,10 +6,10 @@
 
 #include "maze.hpp"
 #include "point.hpp"
-
+#include "list.hpp"
 
 enum algorithm{
-	anchura = 0,
+	breadth = 0,
 	profundidad = 1,
 	escalada = 2,
 	primero_el_mejor = 3,
@@ -32,8 +32,8 @@ public:
 	void solve(unsigned mode);
 
 	//Busquedas sin informacion
-	void anchura(void);
-	void anadir_descendientes_al_final(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
+	void breadth(void);
+	void push_back_childs(list_t& paths, path_t path);
 
 	void profundidad(void);
 	void anadir_descendientes_al_principio(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);

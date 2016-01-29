@@ -38,9 +38,19 @@ path_t list_t::pop_at(unsigned index)
 	return algo; //TODO
 }
 
-void sort(void)
+path_t& list_t::front(void)
+{
+	return list_.front();
+}
+
+void list_t::sort(void)
 {
 
+}
+
+bool list_t::empty(void)
+{
+	return list_.empty();
 }
 
 std::ostream& operator<<(std::ostream &os, const list_t &list)

@@ -21,8 +21,18 @@ public:
 	point_t& operator[](unsigned index);
 	path_t& operator=(const path_t& other);
 
+	unsigned size(void);
 	unsigned& cost(void);
 	unsigned acumulated_cost(void);
+
+	bool is(const point_t& point);
+
+	bool operator==(path_t& other);
+	bool operator!=(path_t& other);
+	bool operator<(path_t& other);
+	bool operator<=(path_t& other);
+	bool operator>(path_t& other);
+	bool operator>=(path_t& other);
 
 	friend std::ostream& operator<<(std::ostream &os, const path_t &path);
 };
