@@ -47,6 +47,7 @@ void path_t::push(point_t point)
 
 point_t& path_t::last(void)
 {
+	// TODO: throw exception if list is empty
 	// if(end_ == nullptr)
 	// 	throw ????
 	return end_->point();
@@ -60,7 +61,7 @@ point_t& path_t::operator[](unsigned index)
 		it++;
 		ptr = ptr->next();
 	}
-	// TODO:
+	// TODO: operator[] throw excpetion if error in index
 	// if(ptr == nullptr)
 	// 	throw ????
 	return ptr->point();

@@ -10,6 +10,11 @@ cell_t& maze_t::at(unsigned x, unsigned y)
 	return map_.at(x, y);
 }
 
+cell_t& maze_t::at(point_t point)
+{
+	return map_.at(point.x(), point.y());
+}
+
 void maze_t::generate(void)
 {
 	map_.clear();

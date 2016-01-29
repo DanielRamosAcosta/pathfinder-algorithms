@@ -10,7 +10,7 @@
 
 enum algorithm{
 	breadth = 0,
-	profundidad = 1,
+	depth = 1,
 	escalada = 2,
 	primero_el_mejor = 3,
 	coste_uniforme = 4,
@@ -35,8 +35,8 @@ public:
 	void breadth(void);
 	void push_back_childs(list_t& paths, path_t path);
 
-	void profundidad(void);
-	void anadir_descendientes_al_principio(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
+	void depth(void);
+	void push_front_childs(list_t& paths, path_t path);
 
 	//Búsquedas usando una función heurística (por proximidad al objetivo)
 	double h(point_t origen);

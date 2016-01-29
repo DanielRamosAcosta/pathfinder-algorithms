@@ -13,7 +13,7 @@ void agent_t::solve(unsigned mode)
 {
 	switch(mode){
 		case algorithm::breadth: breadth(); break;
-		case algorithm::profundidad: profundidad(); break;
+		case algorithm::depth: depth(); break;
 		case algorithm::escalada: escalada(); break;
 		case algorithm::primero_el_mejor: primero_el_mejor(); break;
 		case algorithm::coste_uniforme: coste_uniforme(); break;
@@ -30,13 +30,12 @@ void agent_t::breadth(void)
 	initial_path.push(start_);
 	paths.push_back(initial_path);
 
-	//While lista not empty and not in final node
 	while(!paths.empty() && (paths.front().last() != end_ )){
 		auto path = paths.pop_front();
 		push_back_childs(paths, path);
 	}
 	for(unsigned i = 0; i < paths.front().size(); i++){
-		maze_->at(paths.front()[i].x(), paths.front()[i].y()) = tile::path;
+		maze_->at(paths.front()[i]) = tile::path;
 	}
 }
 
@@ -47,9 +46,9 @@ void agent_t::push_back_childs(list_t& paths, path_t path)
 		dir direction = static_cast<dir>(i);
 
 		last = last + direction;
-		if(maze_->at(last.x(), last.y()) != tile::obstacle){ //TODO: Add at(point_t) in maze_t
+		if(maze_->at(last) != tile::obstacle){
 			if(!path.is(last)){
-				maze_->at(last.x(), last.y()) = tile::marked;
+				maze_->at(last) = tile::marked;
 				path_t dummy = path;
 				dummy.push(last);
 				paths.push_back(dummy); //BFS: Append at the end of the list
@@ -58,36 +57,36 @@ void agent_t::push_back_childs(list_t& paths, path_t path)
 	}
 }
 
-void agent_t::profundidad(void)
+void agent_t::depth(void)
 {
-	std::deque<trayectoria_t> lista_trayectorias;
-	trayectoria_t trayectoria_inicial;
-	trayectoria_inicial.push_back(start_);
-	lista_trayectorias.push_back(trayectoria_inicial);
+	list_t paths;
+	path_t initial_path;
+	initial_path.push(start_);
+	paths.push_back(initial_path);
 
-	//While lista not empty and not in final node
-	while(!lista_trayectorias.empty() && !(lista_trayectorias.front().back().x() == end_.x() && lista_trayectorias.front().back().y() == end_.y())){
-		auto trayectoria = lista_trayectorias.front();
-		lista_trayectorias.pop_front();
-		anadir_descendientes_al_principio(lista_trayectorias, trayectoria);
+	while(!paths.empty() && (paths.front().last() != end_ )){
+		auto path = paths.pop_front();
+		push_front_childs(paths, path);
 	}
-	for(unsigned i = 0; i < lista_trayectorias.front().size(); i++){
-		maze_->at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
+	for(unsigned i = 0; i < paths.front().size(); i++){
+		maze_->at(paths.front()[i]) = tile::path;
 	}
 }
 
-void agent_t::anadir_descendientes_al_principio(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria)
+void agent_t::push_front_childs(list_t& paths, path_t path)
 {
-	unsigned nx, ny;
 	for(int i = dir::n; i <= dir::w; i+=2){
-		nx = trayectoria.back().x();
-		ny = trayectoria.back().y();
-		common::coord(nx, ny, i);
-		if(maze_->at(nx, ny) == tile::empty){
-			maze_->at(nx, ny) = tile::marked;
-			trayectoria_t dummy = trayectoria;
-			dummy.push_back(point_t(nx, ny));
-			lista_trayectorias.push_front(dummy); //lo ponemos al final
+		point_t last = path.last();
+		dir direction = static_cast<dir>(i);
+
+		last = last + direction;
+		if(maze_->at(last) != tile::obstacle){
+			if(!path.is(last)){
+				maze_->at(last) = tile::marked;
+				path_t dummy = path;
+				dummy.push(last);
+				paths.push_front(dummy); //DFS: Append at the front of the list
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "map.hpp"
+#include "common.hpp"
+#include "point.hpp"
 
 class maze_t{
 private:
@@ -12,6 +14,7 @@ private:
 public:
 	maze_t(unsigned, unsigned);
 	cell_t& at(unsigned, unsigned);
+	cell_t& at(point_t);
 	void generate(void);
 	void generate(unsigned);
 	bool adjacent_ocupable_cell_exists(unsigned, unsigned);
