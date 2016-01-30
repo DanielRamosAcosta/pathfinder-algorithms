@@ -44,10 +44,12 @@ bool maze_t::adjacent_ocupable_cell_exists(point_t point)
 	for(unsigned dir = dir_t::n; dir <= dir_t::w; dir+=2){
 		dir_t newdir = static_cast<dir_t>(dir);
 		newpoint = point + newdir;
-		
-		if(reachable(newpoint) && map_.at(newpoint.x(), newpoint.y() == tile::obstacle))
+
+		if(reachable(newpoint) && map_.at(newpoint.x(), newpoint.y() == tile::obstacle)){
+			std::cout << "Soy adjacent y vamos a mirar en la direccion " << newdir  << " desde " << point << " que es el punto " << newpoint << std::endl;
 			if(only_one_adyacent(newpoint, newdir))
 				return true;
+		}
 	}
 	return false;
 }
@@ -56,10 +58,10 @@ bool maze_t::only_one_adyacent(point_t point, dir_t direction)
 {
 	unsigned displacement = 0;
 	switch(direction){
-		case dir_t::n: displacement = dir_t::e; break;
-		case dir_t::e: displacement = dir_t::s; break;
-		case dir_t::s: displacement = dir_t::w; break; //TODO: AQUIIIIII
-		case dir_t::w: displacement = dir_t::n; break;
+		case dir_t::n: displacement = dir_t::w; break;
+		case dir_t::e: displacement = dir_t::n; break;
+		case dir_t::s: displacement = dir_t::e; break; //TODO: AQUIIIIII
+		case dir_t::w: displacement = dir_t::s; break;
 		default: break;
 	}
 	std::cout << "Vamos a intentar ir a la celda " << point << " vengo " << direction << std::endl;
@@ -79,7 +81,7 @@ bool maze_t::only_one_adyacent(point_t point, dir_t direction)
 			std::cout << "No have falta revisar " << newpoint << std::endl;
 	}
 	std::cout << "Esta celda la podemos ocupar, todo ok" << std::endl;
-	sleep(2);
+	//sleep(2);
 	return true;
 }
 
