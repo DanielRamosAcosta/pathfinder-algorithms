@@ -16,7 +16,7 @@ public:
 	bool operator==(point_t);
 	bool operator!=(point_t);
 
-	point_t operator+(dir direction);
+	point_t operator+(dir_t direction);
 
 	friend std::ostream& operator<<(std::ostream &os, const point_t &point);
 };

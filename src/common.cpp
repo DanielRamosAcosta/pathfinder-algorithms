@@ -5,14 +5,14 @@ namespace common{
 	void coord(unsigned& x, unsigned& y, unsigned direction)
 	{
 		switch(direction){
-			case dir::n:	y-=1;		break;
-			case dir::ne:	y-=1; x+=1;	break;
-			case dir::e:	x+=1;		break;
-			case dir::se:	y+=1; x+=1;	break;
-			case dir::s:	y+=1;		break;
-			case dir::sw:	y+=1; x-=1;	break;
-			case dir::w:	x-=1;		break;
-			case dir::nw:	y-=1; x-=1;	break;
+			case dir_t::n:	y-=1;		break;
+			case dir_t::ne:	y-=1; x+=1;	break;
+			case dir_t::e:	x+=1;		break;
+			case dir_t::se:	y+=1; x+=1;	break;
+			case dir_t::s:	y+=1;		break;
+			case dir_t::sw:	y+=1; x-=1;	break;
+			case dir_t::w:	x-=1;		break;
+			case dir_t::nw:	y-=1; x-=1;	break;
 		}
 	}
 

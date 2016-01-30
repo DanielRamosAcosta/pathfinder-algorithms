@@ -17,5 +17,7 @@
 */
 
 int main(void){
-
+	maze_t maze(20, 20);
+	maze.generate(4);
+	maze.print(std::cout);
 }

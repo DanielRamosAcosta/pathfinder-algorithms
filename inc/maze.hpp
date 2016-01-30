@@ -9,7 +9,7 @@ private:
 	map_t map_;
 	unsigned seed_;
 private:
-	void carve_passages_from(unsigned, unsigned);
+	void carve_passages_from(point_t point);
 	void set_borders(void);
 public:
 	maze_t(unsigned, unsigned);
@@ -17,10 +17,10 @@ public:
 	cell_t& at(point_t);
 	void generate(void);
 	void generate(unsigned);
-	bool adjacent_ocupable_cell_exists(unsigned, unsigned);
-	bool reachable(unsigned, unsigned);
-	bool only_one_adyacent(unsigned, unsigned);
-	void random_ocupable_cell(unsigned& x, unsigned& y);
+	bool adjacent_ocupable_cell_exists(point_t point);
+	bool reachable(point_t point);
+	bool only_one_adyacent(point_t, dir_t direction);
+	point_t random_ocupable_cell(point_t point);
 	void clean(void);
 	unsigned x(void);
 	unsigned y(void);

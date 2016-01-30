@@ -18,7 +18,7 @@ cell_t& maze_t::at(point_t point)
 void maze_t::generate(void)
 {
 	map_.clear();
-	carve_passages_from(1, 1);
+	carve_passages_from(point_t(1, 1));
 	clean();
 }
 
@@ -30,82 +30,82 @@ void maze_t::generate(unsigned seed)
 	seed_ = 0;
 }
 
-void maze_t::carve_passages_from(unsigned x, unsigned y)
+void maze_t::carve_passages_from(point_t point)
 {
-	map_.at(x, y) = tile::empty;
-	unsigned nx, ny;
-	while(adjacent_ocupable_cell_exists(x, y)){
-		nx = x;
-		ny = y;
-		random_ocupable_cell(nx, ny);
-		carve_passages_from(nx, ny);
+	map_.at(point.x(), point.y()) = tile::empty;
+	while(adjacent_ocupable_cell_exists(point)){
+		carve_passages_from(random_ocupable_cell(point));
 	}
 }
 
-bool maze_t::adjacent_ocupable_cell_exists(unsigned x, unsigned y)
+bool maze_t::adjacent_ocupable_cell_exists(point_t point)
 {
-	unsigned nx, ny;
-	for(unsigned i = dir::n; i <= dir::w; i+=2){
-		nx = x;
-		ny = y;
-		common::coord(nx, ny, i);
-		if(reachable(nx, ny) && map_.at(nx, ny) == tile::obstacle)
-			if(only_one_adyacent(nx, ny, i))
+	point_t newpoint;
+	for(unsigned dir = dir_t::n; dir <= dir_t::w; dir+=2){
+		dir_t newdir = static_cast<dir_t>(dir);
+		newpoint = point + newdir;
+		
+		if(reachable(newpoint) && map_.at(newpoint.x(), newpoint.y() == tile::obstacle))
+			if(only_one_adyacent(newpoint, newdir))
 				return true;
 	}
 	return false;
 }
 
-bool maze_t::only_one_adyacent(unsigned x, unsigned y, dir previous)
+bool maze_t::only_one_adyacent(point_t point, dir_t direction)
 {
-	unsgined displacement = 0;
-	switch(previous){
-		case dir::n: displacement = 4; break;
-		case dir::e: displacement = 6; break;
-		case dir::w: displacement = 2; break;
+	unsigned displacement = 0;
+	switch(direction){
+		case dir_t::n: displacement = dir_t::e; break;
+		case dir_t::e: displacement = dir_t::s; break;
+		case dir_t::s: displacement = dir_t::w; break; //TODO: AQUIIIIII
+		case dir_t::w: displacement = dir_t::n; break;
 		default: break;
 	}
-
-	point_t point(x, y);
-
-	for(int i = 0; i < 5; i++){
-		int ri = (i + displacement)%8;
-		dir direction = static_cast<dir>(ri);
-		point = point + direction;
-
-		if(maze_->at(point) == tile::empty){
-			return false;//TODO: AQUIII ME QUEDEEEEEE
+	std::cout << "Vamos a intentar ir a la celda " << point << " vengo " << direction << std::endl;
+	point_t newpoint;
+	for(unsigned dir = 0; dir < 5; dir++){
+		unsigned displ_dir = (dir+displacement)%8;
+		dir_t newdir = static_cast<dir_t>(displ_dir);
+		newpoint = point + newdir;
+		if(reachable(newpoint)){
+			std::cout << "Revisando OK " << newpoint << std::endl;
+			if(map_.at(newpoint.x(), newpoint.y()) == tile::empty){
+				std::cout << newpoint << " esta ocupdo, pasamos" << std::endl;
+				return false;
+			}
 		}
+		else
+			std::cout << "No have falta revisar " << newpoint << std::endl;
 	}
-
+	std::cout << "Esta celda la podemos ocupar, todo ok" << std::endl;
+	sleep(2);
 	return true;
 }
 
-void maze_t::random_ocupable_cell(unsigned& x, unsigned& y)
+point_t maze_t::random_ocupable_cell(point_t point)
 {
-	unsigned nx, ny;
-	while(adjacent_ocupable_cell_exists(x, y)){
-		nx = x;
-		ny = y;
+	point_t newpoint;
+	while(adjacent_ocupable_cell_exists(point)){
 		unsigned dir = 0;
 		if(seed_ == 0)
 			dir = common::random()%4 * 2;
 		else
 			dir = std::rand()%4 * 2;
-		common::coord(nx, ny, dir);
-		if(reachable(nx, ny) && map_.at(nx, ny) == tile::obstacle){
-			if(only_one_adyacent(nx, ny)){
-				x = nx;
-				y = ny;
-				return;
-			}
-		}
+		dir_t newdir = static_cast<dir_t>(dir);
+
+		newpoint = point + newdir;
+
+		if(reachable(newpoint) && map_.at(newpoint.x(), newpoint.y() == tile::obstacle))
+			if(only_one_adyacent(newpoint, newdir))
+				return newpoint;
 	}
+	return point_t(-1, -1);
 }
 
-bool maze_t::reachable(unsigned x, unsigned y)
+bool maze_t::reachable(point_t point)
 {
-	return x >=1 && y >= 1 && x < map_.sx()-1 && y < map_.sy()-1;
+	return point.x() >=1 && point.y() >= 1 && point.x() < map_.sx()-1 && point.y() < map_.sy()-1;
 }
 
 void maze_t::set_borders(void)

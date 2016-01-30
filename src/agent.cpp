@@ -41,9 +41,9 @@ void agent_t::breadth(void)
 
 void agent_t::push_back_childs(list_t& paths, path_t path)
 {
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		point_t last = path.last();
-		dir direction = static_cast<dir>(i);
+		dir_t direction = static_cast<dir_t>(i);
 		last = last + direction;
 
 		if(maze_->at(last) != tile::obstacle){
@@ -75,9 +75,9 @@ void agent_t::depth(void)
 
 void agent_t::push_front_childs(list_t& paths, path_t path)
 {
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		point_t last = path.last();
-		dir direction = static_cast<dir>(i);
+		dir_t direction = static_cast<dir_t>(i);
 
 		last = last + direction;
 		if(maze_->at(last) != tile::obstacle){
@@ -152,7 +152,7 @@ void agent_t::anadir_descendientes_al_principio_ordenados(std::deque<trayectoria
 {
 	unsigned nx, ny;
 	std::deque<trayectoria_t> lista_desordenada;
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
@@ -193,7 +193,7 @@ void agent_t::primero_el_mejor(void)
 void agent_t::anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria)
 {
 	unsigned nx, ny;
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
@@ -229,7 +229,7 @@ void agent_t::coste_uniforme(void)
 void agent_t::anadir_descendientes_y_ordenar_segun_coste_acumulado(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria)
 {
 	unsigned nx, ny;
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
@@ -265,7 +265,7 @@ void agent_t::coste_uniforme_subestimacion(void)
 void agent_t::anadir_descendientes_y_ordenar_segun_coste_total_estimado(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria)
 {
 	unsigned nx, ny;
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
@@ -313,7 +313,7 @@ void agent_t::eliminar_trayectoria_de_abierta_e_introducir_en_cerrada_eliminando
 void agent_t::ramificar_y_anadir_abierta(std::deque<trayectoria_t>& trayectorias_abiertas, trayectoria_t& eliminada)
 {
 	unsigned nx, ny;
-	for(int i = dir::n; i <= dir::w; i+=2){
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		nx = eliminada.back().x();
 		ny = eliminada.back().y();
 		common::coord(nx, ny, i);

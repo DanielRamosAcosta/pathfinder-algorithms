@@ -19,7 +19,7 @@ West  --- East
 
 typedef unsigned cell_t;
 
-enum dir{
+enum dir_t{
 	n=0,
 	ne=1,
 	e=2,

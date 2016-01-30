@@ -30,19 +30,19 @@ bool point_t::operator!=(point_t point)
 	return x_!=point.x() || y_ != point.y();
 }
 
-point_t point_t::operator+(dir direction)
+point_t point_t::operator+(dir_t direction)
 {
 	point_t new_point(x_, y_);
 	switch(direction){
-		case dir::n:	new_point.y_-=1;					break;
-		case dir::ne:	new_point.y_-=1; new_point.x_+=1;	break;
-		case dir::e:	new_point.x_+=1;					break;
-		case dir::se:	new_point.y_+=1; new_point.x_+=1;	break;
-		case dir::s:	new_point.y_+=1;					break;
-		case dir::sw:	new_point.y_+=1; new_point.x_-=1;	break;
-		case dir::w:	new_point.x_-=1;					break;
-		case dir::nw:	new_point.y_-=1; new_point.x_-=1;	break;
-		case dir::endEnum: break;
+		case dir_t::n:	new_point.y_-=1;					break;
+		case dir_t::ne:	new_point.y_-=1; new_point.x_+=1;	break;
+		case dir_t::e:	new_point.x_+=1;					break;
+		case dir_t::se:	new_point.y_+=1; new_point.x_+=1;	break;
+		case dir_t::s:	new_point.y_+=1;					break;
+		case dir_t::sw:	new_point.y_+=1; new_point.x_-=1;	break;
+		case dir_t::w:	new_point.x_-=1;					break;
+		case dir_t::nw:	new_point.y_-=1; new_point.x_-=1;	break;
+		case dir_t::endEnum: break;
 	}
 	return new_point;
 }
