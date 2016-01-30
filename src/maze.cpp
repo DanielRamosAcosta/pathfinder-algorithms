@@ -33,9 +33,13 @@ void maze_t::generate(unsigned seed)
 void maze_t::carve_passages_from(point_t point)
 {
 	map_.at(point.x(), point.y()) = tile::empty;
+	print(std::cout);
+	std::cout.flush();
+	sleep(1);
 	while(adjacent_ocupable_cell_exists(point)){
 		carve_passages_from(random_ocupable_cell(point));
 	}
+	std::cout << "Ya no quedan celdas, deshaciendo la recursión" << std::endl;
 }
 
 bool maze_t::adjacent_ocupable_cell_exists(point_t point)
