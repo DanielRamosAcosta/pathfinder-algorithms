@@ -17,7 +17,10 @@
 */
 
 int main(void){
-	maze_t maze(20, 20);
-	maze.generate(4);
-	maze.print(std::cout);
+	maze_t* maze = new maze_t(40,40);
+	agent_t robot(maze);
+	std::cout << "Siguiendo la estrategia: breadth" << std::endl;
+	maze->generate(4);
+	robot.solve(algorithm::breadth);
+	maze->print(std::cout);
 }

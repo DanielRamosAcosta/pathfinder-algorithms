@@ -10,7 +10,6 @@ private:
 	unsigned seed_;
 private:
 	void carve_passages_from(point_t point);
-	void set_borders(void);
 public:
 	maze_t(unsigned, unsigned);
 	cell_t& at(unsigned, unsigned);
