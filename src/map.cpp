@@ -26,14 +26,14 @@ void map_t::clear(void)
 			j = default_;
 }
 
-unsigned map_t::sx(void)
+unsigned map_t::x(void)
 {
 	return map_.size();
 }
 
-unsigned map_t::sy(void)
+unsigned map_t::y(void)
 {
-	if(sx() == 0)
+	if(x() == 0)
 		return 0;
 	else
 		return map_[0].size();
@@ -46,8 +46,8 @@ unsigned& map_t::at(unsigned x, unsigned y)
 
 std::ostream& map_t::print(std::ostream& os)
 {
-	for(unsigned i = 0; i < sy(); i++){
-		for(unsigned j = 0; j < sx(); j++){
+	for(unsigned i = 0; i < y(); i++){
+		for(unsigned j = 0; j < x(); j++){
 			os << map_[j][i] << " ";
 		}
 		os << "\n";

@@ -13,8 +13,8 @@ public:
 	map_t(unsigned, unsigned, cell_t);
 	void resize(unsigned, unsigned);
 	void clear(void);
-	unsigned sx(void);
-	unsigned sy(void);
+	unsigned x(void);
+	unsigned y(void);
 	unsigned& at(unsigned x, unsigned y);
 	std::ostream& print(std::ostream& os);
 };

@@ -24,7 +24,7 @@ void maze_t::generate(void)
 
 void maze_t::generate(unsigned seed)
 {
-	seed_ = seed*map_.sx()*map_.sy();
+	seed_ = seed*map_.x()*map_.y();
 	std::srand(seed_);
 	generate();
 	seed_ = 0;
@@ -95,7 +95,7 @@ point_t maze_t::random_ocupable_cell(point_t point)
 
 bool maze_t::reachable(point_t point)
 {
-	return point.x() >=1 && point.y() >= 1 && point.x() < map_.sx()-1 && point.y() < map_.sy()-1;
+	return point.x() >=1 && point.y() >= 1 && point.x() < map_.x()-1 && point.y() < map_.y()-1;
 }
 
 void maze_t::clean(void)
@@ -105,26 +105,26 @@ void maze_t::clean(void)
 	map_.at(1,2) = tile::empty;
 	map_.at(2,2) = tile::empty;
 
-	map_.at(map_.sx()-2, map_.sy()-2) = tile::empty;
-	map_.at(map_.sx()-3, map_.sy()-2) = tile::empty;
-	map_.at(map_.sx()-2, map_.sy()-3) = tile::empty;
-	map_.at(map_.sx()-3, map_.sy()-3) = tile::empty;
+	map_.at(map_.x()-2, map_.y()-2) = tile::empty;
+	map_.at(map_.x()-3, map_.y()-2) = tile::empty;
+	map_.at(map_.x()-2, map_.y()-3) = tile::empty;
+	map_.at(map_.x()-3, map_.y()-3) = tile::empty;
 }
 
 unsigned maze_t::x(void)
 {
-	return map_.sx();
+	return map_.x();
 }
 
 unsigned maze_t::y(void)
 {
-	return map_.sy();
+	return map_.y();
 }
 
 std::ostream& maze_t::print(std::ostream& os)
 {
-	for(unsigned i = 0; i < map_.sy(); i++){
-		for(unsigned j = 0; j < map_.sx(); j++){
+	for(unsigned i = 0; i < map_.y(); i++){
+		for(unsigned j = 0; j < map_.x(); j++){
 			switch(map_.at(j, i)){
 				case 0: os << "  "; break;
 				case 1: os << "██"; break;
