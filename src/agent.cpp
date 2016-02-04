@@ -1,12 +1,12 @@
 #include "agent.hpp"
 
-agent_t::agent_t(maze_t* maze):
+agent_t::agent_t(maze_t& maze):
 maze_(maze)
 {
 	start_.x() = 1;
 	start_.y() = 1;
-	end_.x() = maze->x()-2;
-	end_.y() = maze->y()-2;
+	end_.x() = maze.x()-2;
+	end_.y() = maze.y()-2;
 }
 
 void agent_t::solve(unsigned mode)
@@ -35,7 +35,7 @@ void agent_t::breadth(void)
 		push_back_childs(paths, path);
 	}
 	for(unsigned i = 0; i < paths.front().size(); i++){
-		maze_->at(paths.front()[i]) = tile::path;
+		maze_.at(paths.front()[i]) = tile::path;
 	}
 }
 
@@ -46,9 +46,9 @@ void agent_t::push_back_childs(list_t& paths, path_t path)
 		dir_t direction = static_cast<dir_t>(i);
 		last = last + direction;
 
-		if(maze_->at(last) != tile::obstacle){
+		if(maze_.at(last) != tile::obstacle){
 			if(!path.is(last)){
-				maze_->at(last) = tile::marked;
+				maze_.at(last) = tile::marked;
 				path_t dummy = path;
 				dummy.push(last);
 				paths.push_back(dummy); //BFS: Append at the end of the list
@@ -69,7 +69,7 @@ void agent_t::depth(void)
 		push_front_childs(paths, path);
 	}
 	for(unsigned i = 0; i < paths.front().size(); i++){
-		maze_->at(paths.front()[i]) = tile::path;
+		maze_.at(paths.front()[i]) = tile::path;
 	}
 }
 
@@ -80,9 +80,9 @@ void agent_t::push_front_childs(list_t& paths, path_t path)
 		dir_t direction = static_cast<dir_t>(i);
 
 		last = last + direction;
-		if(maze_->at(last) != tile::obstacle){
+		if(maze_.at(last) != tile::obstacle){
 			if(!path.is(last)){
-				maze_->at(last) = tile::marked;
+				maze_.at(last) = tile::marked;
 				path_t dummy = path;
 				dummy.push(last);
 				paths.push_front(dummy); //DFS: Append at the front of the list
@@ -134,7 +134,7 @@ void agent_t::escalada(void)
 	std::deque<trayectoria_t> lista_trayectorias;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
+	maze_.at(1,1) = tile::marked;
 	lista_trayectorias.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node
@@ -144,7 +144,7 @@ void agent_t::escalada(void)
 		anadir_descendientes_al_principio_ordenados(lista_trayectorias, trayectoria);
 	}
 	for(unsigned i = 0; i < lista_trayectorias.front().size(); i++){
-		maze_->at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
+		maze_.at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
 	}
 }
 
@@ -156,8 +156,8 @@ void agent_t::anadir_descendientes_al_principio_ordenados(std::deque<trayectoria
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
-		if(maze_->at(nx, ny) == tile::empty){
-			maze_->at(nx, ny) = tile::marked;
+		if(maze_.at(nx, ny) == tile::empty){
+			maze_.at(nx, ny) = tile::marked;
 			trayectoria_t dummy = trayectoria;
 			dummy.push_back(point_t(nx, ny));
 			lista_desordenada.push_front(dummy); //lo ponemos al final
@@ -176,7 +176,7 @@ void agent_t::primero_el_mejor(void)
 	std::deque<trayectoria_t> lista_trayectorias;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
+	maze_.at(1,1) = tile::marked;
 	lista_trayectorias.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node
@@ -186,7 +186,7 @@ void agent_t::primero_el_mejor(void)
 		anadir_descendientes_y_ordenar(lista_trayectorias, trayectoria);
 	}
 	for(unsigned i = 0; i < lista_trayectorias.front().size(); i++){
-		maze_->at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
+		maze_.at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
 	}
 }
 
@@ -197,8 +197,8 @@ void agent_t::anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_tr
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
-		if(maze_->at(nx, ny) == tile::empty){
-			maze_->at(nx, ny) = tile::marked;
+		if(maze_.at(nx, ny) == tile::empty){
+			maze_.at(nx, ny) = tile::marked;
 			trayectoria_t dummy = trayectoria;
 			dummy.push_back(point_t(nx, ny));
 			lista_trayectorias.push_front(dummy); //lo ponemos al final
@@ -212,7 +212,7 @@ void agent_t::coste_uniforme(void)
 	std::deque<trayectoria_t> lista_trayectorias;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
+	maze_.at(1,1) = tile::marked;
 	lista_trayectorias.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node
@@ -222,7 +222,7 @@ void agent_t::coste_uniforme(void)
 		anadir_descendientes_y_ordenar_segun_coste_acumulado(lista_trayectorias, trayectoria);
 	}
 	for(unsigned i = 0; i < lista_trayectorias.front().size(); i++){
-		maze_->at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
+		maze_.at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
 	}
 }
 
@@ -233,8 +233,8 @@ void agent_t::anadir_descendientes_y_ordenar_segun_coste_acumulado(std::deque<tr
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
-		if(maze_->at(nx, ny) == tile::empty){
-			maze_->at(nx, ny) = tile::marked;
+		if(maze_.at(nx, ny) == tile::empty){
+			maze_.at(nx, ny) = tile::marked;
 			trayectoria_t dummy = trayectoria;
 			dummy.push_back(point_t(nx, ny));
 			lista_trayectorias.push_front(dummy); //lo ponemos al final
@@ -248,7 +248,7 @@ void agent_t::coste_uniforme_subestimacion(void)
 	std::deque<trayectoria_t> lista_trayectorias;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
+	maze_.at(1,1) = tile::marked;
 	lista_trayectorias.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node
@@ -258,7 +258,7 @@ void agent_t::coste_uniforme_subestimacion(void)
 		anadir_descendientes_y_ordenar_segun_coste_total_estimado(lista_trayectorias, trayectoria);
 	}
 	for(unsigned i = 0; i < lista_trayectorias.front().size(); i++){
-		maze_->at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
+		maze_.at(lista_trayectorias.front()[i].x(), lista_trayectorias.front()[i].y()) = tile::path;
 	}
 }
 
@@ -269,8 +269,8 @@ void agent_t::anadir_descendientes_y_ordenar_segun_coste_total_estimado(std::deq
 		nx = trayectoria.back().x();
 		ny = trayectoria.back().y();
 		common::coord(nx, ny, i);
-		if(maze_->at(nx, ny) == tile::empty){
-			maze_->at(nx, ny) = tile::marked;
+		if(maze_.at(nx, ny) == tile::empty){
+			maze_.at(nx, ny) = tile::marked;
 			trayectoria_t dummy = trayectoria;
 			dummy.push_back(point_t(nx, ny));
 			lista_trayectorias.push_front(dummy); //lo ponemos al final
@@ -286,7 +286,7 @@ void agent_t::coste_uniforme_dinamico(void)
 	trayectoria_t eliminada;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
+	maze_.at(1,1) = tile::marked;
 	trayectorias_abiertas.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node
@@ -298,7 +298,7 @@ void agent_t::coste_uniforme_dinamico(void)
 	}
 	if(!trayectorias_abiertas.empty())
 		for(unsigned i = 0; i < trayectorias_abiertas.front().size(); i++){
-			maze_->at(trayectorias_abiertas.front()[i].x(), trayectorias_abiertas.front()[i].y()) = tile::path;
+			maze_.at(trayectorias_abiertas.front()[i].x(), trayectorias_abiertas.front()[i].y()) = tile::path;
 		}
 }
 
@@ -317,8 +317,8 @@ void agent_t::ramificar_y_anadir_abierta(std::deque<trayectoria_t>& trayectorias
 		nx = eliminada.back().x();
 		ny = eliminada.back().y();
 		common::coord(nx, ny, i);
-		if(maze_->at(nx, ny) == tile::empty){
-			maze_->at(nx, ny) = tile::marked;
+		if(maze_.at(nx, ny) == tile::empty){
+			maze_.at(nx, ny) = tile::marked;
 			trayectoria_t dummy = eliminada;
 			dummy.push_back(point_t(nx, ny));
 			trayectorias_abiertas.push_front(dummy); //lo ponemos al final
@@ -376,7 +376,7 @@ void agent_t::a_estrella(void)
 	trayectoria_t eliminada;
 	trayectoria_t trayectoria_inicial;
 	trayectoria_inicial.push_back(start_);
-	maze_->at(1,1) = tile::marked;
+	maze_.at(1,1) = tile::marked;
 	trayectorias_abiertas.push_back(trayectoria_inicial);
 
 	//While lista not empty and not in final node
@@ -388,6 +388,6 @@ void agent_t::a_estrella(void)
 	}
 	if(!trayectorias_abiertas.empty())
 		for(unsigned i = 0; i < trayectorias_abiertas.front().size(); i++){
-			maze_->at(trayectorias_abiertas.front()[i].x(), trayectorias_abiertas.front()[i].y()) = tile::path;
+			maze_.at(trayectorias_abiertas.front()[i].x(), trayectorias_abiertas.front()[i].y()) = tile::path;
 		}
 }

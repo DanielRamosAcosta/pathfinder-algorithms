@@ -2,7 +2,8 @@
 
 maze_t::maze_t(unsigned x, unsigned y):
 map_(x, y, tile::obstacle),
-seed_(0)
+seed_(0),
+have_seed_(false)
 {}
 
 cell_t& maze_t::at(unsigned x, unsigned y)
@@ -24,10 +25,11 @@ void maze_t::generate(void)
 
 void maze_t::generate(unsigned seed)
 {
+	have_seed_ = true;
 	seed_ = seed*map_.x()*map_.y();
 	std::srand(seed_);
 	generate();
-	seed_ = 0;
+	have_seed_ = false;
 }
 
 void maze_t::carve_passages_from(point_t point)
@@ -78,10 +80,10 @@ point_t maze_t::random_ocupable_cell(point_t point)
 	point_t newpoint;
 	while(adjacent_ocupable_cell_exists(point)){
 		unsigned dir = 0;
-		if(seed_ == 0)
-			dir = common::random()%4 * 2;
-		else
+		if(have_seed_)
 			dir = std::rand()%4 * 2;
+		else
+			dir = common::random()%4 * 2;
 		dir_t newdir = static_cast<dir_t>(dir);
 
 		newpoint = point + newdir;
@@ -121,11 +123,11 @@ unsigned maze_t::y(void)
 	return map_.y();
 }
 
-std::ostream& maze_t::print(std::ostream& os)
+std::ostream& operator<<(std::ostream& os, const maze_t& maze)
 {
-	for(unsigned i = 0; i < map_.y(); i++){
-		for(unsigned j = 0; j < map_.x(); j++){
-			switch(map_.at(j, i)){
+	for(unsigned i = 0; i < maze.map_.y(); i++){
+		for(unsigned j = 0; j < maze.map_.x(); j++){
+			switch(maze.map_.at(j, i)){
 				case 0: os << "  "; break;
 				case 1: os << "██"; break;
 				case 2: os << "\033[31m██\033[0m"; break;

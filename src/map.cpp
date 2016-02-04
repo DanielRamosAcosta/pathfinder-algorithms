@@ -26,12 +26,12 @@ void map_t::clear(void)
 			j = default_;
 }
 
-unsigned map_t::x(void)
+unsigned map_t::x(void) const
 {
 	return map_.size();
 }
 
-unsigned map_t::y(void)
+unsigned map_t::y(void) const
 {
 	if(x() == 0)
 		return 0;
@@ -40,6 +40,11 @@ unsigned map_t::y(void)
 }
 
 unsigned& map_t::at(unsigned x, unsigned y)
+{
+	return map_[x][y];
+}
+
+unsigned map_t::at(unsigned x, unsigned y) const
 {
 	return map_[x][y];
 }

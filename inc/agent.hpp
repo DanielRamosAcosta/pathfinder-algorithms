@@ -24,11 +24,11 @@ typedef std::deque<point_t> trayectoria_t;
 class agent_t
 {
 private:
-	maze_t* maze_;
+	maze_t& maze_;
 	point_t start_;
 	point_t end_;
 public:
-	agent_t(maze_t* maze);
+	agent_t(maze_t& maze);
 	void solve(unsigned mode);
 
 	//Busquedas sin informacion
