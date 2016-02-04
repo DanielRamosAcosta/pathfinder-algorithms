@@ -1,12 +1,12 @@
 #include "map.hpp"
 
 map_t::map_t(unsigned altura, unsigned anchura):
-default_(0)
+default_(tile_t::empty)
 {
 	resize(anchura, altura);
 }
 
-map_t::map_t(unsigned altura, unsigned anchura, cell_t val):
+map_t::map_t(unsigned altura, unsigned anchura, tile_t val):
 default_(val)
 {
 	resize(anchura, altura);
@@ -39,21 +39,21 @@ unsigned map_t::y(void) const
 		return map_[0].size();
 }
 
-unsigned& map_t::at(unsigned x, unsigned y)
+tile_t& map_t::at(unsigned x, unsigned y)
 {
 	return map_[x][y];
 }
 
-unsigned map_t::at(unsigned x, unsigned y) const
+tile_t map_t::at(unsigned x, unsigned y) const
 {
 	return map_[x][y];
 }
 
-std::ostream& map_t::print(std::ostream& os)
+std::ostream& operator<<(std::ostream& os, const map_t& map)
 {
-	for(unsigned i = 0; i < y(); i++){
-		for(unsigned j = 0; j < x(); j++){
-			os << map_[j][i] << " ";
+	for(unsigned i = 0; i < map.y(); i++){
+		for(unsigned j = 0; j < map.x(); j++){
+			os << map.map_[j][i] << " ";
 		}
 		os << "\n";
 	}

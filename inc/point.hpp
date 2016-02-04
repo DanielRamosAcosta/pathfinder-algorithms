@@ -13,10 +13,12 @@ public:
 	point_t(unsigned x, unsigned y);
 	unsigned& x(void);
 	unsigned& y(void);
-	bool operator==(point_t);
-	bool operator!=(point_t);
+	unsigned x(void) const;
+	unsigned y(void) const;
+	bool operator==(const point_t&) const;
+	bool operator!=(const point_t&) const;
 
-	point_t operator+(dir_t direction);
+	point_t operator+(const dir_t&) const;
 
-	friend std::ostream& operator<<(std::ostream &os, const point_t &point);
+	friend std::ostream& operator<<(std::ostream&, const point_t&);
 };

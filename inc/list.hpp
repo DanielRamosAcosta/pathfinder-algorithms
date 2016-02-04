@@ -12,17 +12,17 @@ public:
 	list_t(void);
 	~list_t(void);
 
-	void push_back(path_t& path);
-	void push_front(path_t& path);
+	void push_back(const path_t&);
+	void push_front(const path_t&);
 
 	path_t pop_back(void);
 	path_t pop_front(void);
-	path_t pop_at(unsigned index);
+	path_t pop_at(const unsigned);
 
 	path_t& front(void);
 
 	void sort(void);
 	bool empty(void);
 
-	friend std::ostream& operator<<(std::ostream &os, const list_t &list);
+	friend std::ostream& operator<<(std::ostream& , const list_t&);
 };

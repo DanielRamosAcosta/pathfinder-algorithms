@@ -1,17 +1,17 @@
 #include "maze.hpp"
 
 maze_t::maze_t(unsigned x, unsigned y):
-map_(x, y, tile::obstacle),
+map_(x, y, tile_t::obstacle),
 seed_(0),
 have_seed_(false)
 {}
 
-cell_t& maze_t::at(unsigned x, unsigned y)
+tile_t& maze_t::at(unsigned x, unsigned y)
 {
 	return map_.at(x, y);
 }
 
-cell_t& maze_t::at(point_t point)
+tile_t& maze_t::at(point_t point)
 {
 	return map_.at(point.x(), point.y());
 }
@@ -34,7 +34,7 @@ void maze_t::generate(unsigned seed)
 
 void maze_t::carve_passages_from(point_t point)
 {
-	map_.at(point.x(), point.y()) = tile::empty;
+	map_.at(point.x(), point.y()) = tile_t::empty;
 	while(adjacent_ocupable_cell_exists(point))
 		carve_passages_from(random_ocupable_cell(point));
 }
@@ -46,7 +46,7 @@ bool maze_t::adjacent_ocupable_cell_exists(point_t point)
 		dir_t newdir = static_cast<dir_t>(dir);
 		newpoint = point + newdir;
 
-		if(reachable(newpoint) && (map_.at(newpoint.x(), newpoint.y()) == tile::obstacle))
+		if(reachable(newpoint) && (map_.at(newpoint.x(), newpoint.y()) == tile_t::obstacle))
 			if(only_one_adyacent(newpoint, newdir))
 				return true;
 	}
@@ -69,7 +69,7 @@ bool maze_t::only_one_adyacent(point_t point, dir_t direction)
 		dir_t newdir = static_cast<dir_t>(displ_dir);
 		newpoint = point + newdir;
 		if(reachable(newpoint))
-			if(map_.at(newpoint.x(), newpoint.y()) == tile::empty)
+			if(map_.at(newpoint.x(), newpoint.y()) == tile_t::empty)
 				return false;
 	}
 	return true;
@@ -88,7 +88,7 @@ point_t maze_t::random_ocupable_cell(point_t point)
 
 		newpoint = point + newdir;
 
-		if(reachable(newpoint) && map_.at(newpoint.x(), newpoint.y() == tile::obstacle))
+		if(reachable(newpoint) && map_.at(newpoint.x(), newpoint.y() == tile_t::obstacle))
 			if(only_one_adyacent(newpoint, newdir))
 				return newpoint;
 	}
@@ -102,15 +102,15 @@ bool maze_t::reachable(point_t point)
 
 void maze_t::clean(void)
 {
-	map_.at(1,1) = tile::empty;
-	map_.at(2,1) = tile::empty;
-	map_.at(1,2) = tile::empty;
-	map_.at(2,2) = tile::empty;
+	map_.at(1,1) = tile_t::empty;
+	map_.at(2,1) = tile_t::empty;
+	map_.at(1,2) = tile_t::empty;
+	map_.at(2,2) = tile_t::empty;
 
-	map_.at(map_.x()-2, map_.y()-2) = tile::empty;
-	map_.at(map_.x()-3, map_.y()-2) = tile::empty;
-	map_.at(map_.x()-2, map_.y()-3) = tile::empty;
-	map_.at(map_.x()-3, map_.y()-3) = tile::empty;
+	map_.at(map_.x()-2, map_.y()-2) = tile_t::empty;
+	map_.at(map_.x()-3, map_.y()-2) = tile_t::empty;
+	map_.at(map_.x()-2, map_.y()-3) = tile_t::empty;
+	map_.at(map_.x()-3, map_.y()-3) = tile_t::empty;
 }
 
 unsigned maze_t::x(void)

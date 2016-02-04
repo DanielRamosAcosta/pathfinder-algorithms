@@ -17,8 +17,6 @@ West  --- East
 
 */
 
-typedef unsigned cell_t;
-
 enum dir_t{
 	n=0,
 	ne=1,
@@ -31,7 +29,7 @@ enum dir_t{
 	endEnum
 };
 
-enum tile{
+enum tile_t{
 	empty=0,
 	obstacle=1,
 	path=2,

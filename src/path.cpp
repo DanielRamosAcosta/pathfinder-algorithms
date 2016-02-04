@@ -35,7 +35,7 @@ void path_t::clean(void)
 	end_ = nullptr;
 }
 
-void path_t::push(point_t point)
+void path_t::push(const point_t point)
 {
 	if(start_ == nullptr)
 		start_ = end_ = new node_t(point);
@@ -53,7 +53,15 @@ point_t& path_t::last(void)
 	return end_->point();
 }
 
-point_t& path_t::operator[](unsigned index)
+point_t path_t::last(void) const
+{
+	// TODO: throw exception if list is empty
+	// if(end_ == nullptr)
+	// 	throw ????
+	return end_->point();
+}
+
+point_t& path_t::operator[](const unsigned index)
 {
 	node_t* ptr = start_;
 	unsigned it = 0;
@@ -78,7 +86,7 @@ path_t& path_t::operator=(const path_t& other)
 	return *this;
 }
 
-unsigned path_t::size(void)
+unsigned path_t::size(void) const
 {
 	unsigned sz = 0;
 	node_t* ptr = start_;
@@ -94,7 +102,7 @@ unsigned& path_t::cost(void)
 	return cost_;
 }
 
-unsigned path_t::acumulated_cost(void)
+unsigned path_t::acumulated_cost(void) const
 {
 	unsigned cost = 0;
 	node_t* ptr = start_;
@@ -116,32 +124,32 @@ bool path_t::is(const point_t& point)
 	return false;
 }
 
-bool path_t::operator==(path_t& other)
+bool path_t::operator==(const path_t& other) const
 {
 	return last() == other.last();
 }
 
-bool path_t::operator!=(path_t& other)
+bool path_t::operator!=(const path_t& other) const
 {
 	return last() != other.last();
 }
 
-bool path_t::operator<(path_t& other)
+bool path_t::operator<(const path_t& other) const
 {
 	return cost_ < other.cost_;
 }
 
-bool path_t::operator<=(path_t& other)
+bool path_t::operator<=(const path_t& other) const
 {
 	return cost_ < other.cost_;
 }
 
-bool path_t::operator>(path_t& other)
+bool path_t::operator>(const path_t& other) const
 {
 	return cost_ < other.cost_;
 }
 
-bool path_t::operator>=(path_t& other)
+bool path_t::operator>=(const path_t& other) const
 {
 	return cost_ < other.cost_;
 }

@@ -17,7 +17,7 @@
 */
 
 int main(void){
-	maze_t maze(40,40);
+	maze_t maze(20,20);
 	agent_t robot(maze);
 	std::cout << "Siguiendo la estrategia: breadth" << std::endl;
 	maze.generate(4);

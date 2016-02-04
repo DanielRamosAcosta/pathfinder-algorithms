@@ -18,8 +18,8 @@ private:
 	void clean(void);
 public:
 	maze_t(unsigned, unsigned);
-	cell_t& at(unsigned, unsigned);
-	cell_t& at(point_t);
+	tile_t& at(unsigned, unsigned);
+	tile_t& at(point_t);
 	void generate(void);
 	void generate(unsigned);
 	unsigned x(void);

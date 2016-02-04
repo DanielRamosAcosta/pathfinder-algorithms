@@ -13,26 +13,27 @@ private:
 public:
 	path_t(void);
 	~path_t(void);
-	path_t(const path_t& other);
+	path_t(const path_t&);
 	void clean(void);
 
-	void push(point_t point);
+	void push(const point_t);
 	point_t& last(void);
-	point_t& operator[](unsigned index);
-	path_t& operator=(const path_t& other);
+	point_t last(void) const;
+	point_t& operator[](const unsigned);
+	path_t& operator=(const path_t&);
 
-	unsigned size(void);
+	unsigned size(void) const;
 	unsigned& cost(void);
-	unsigned acumulated_cost(void);
+	unsigned acumulated_cost(void) const;
 
-	bool is(const point_t& point);
+	bool is(const point_t&);
 
-	bool operator==(path_t& other);
-	bool operator!=(path_t& other);
-	bool operator<(path_t& other);
-	bool operator<=(path_t& other);
-	bool operator>(path_t& other);
-	bool operator>=(path_t& other);
+	bool operator==(const path_t&) const;
+	bool operator!=(const path_t&) const;
+	bool operator<(const path_t&) const;
+	bool operator<=(const path_t&) const;
+	bool operator>(const path_t&) const;
+	bool operator>=(const path_t&) const;
 
-	friend std::ostream& operator<<(std::ostream &os, const path_t &path);
+	friend std::ostream& operator<<(std::ostream&, const path_t&);
 };

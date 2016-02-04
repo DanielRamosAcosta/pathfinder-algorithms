@@ -7,12 +7,12 @@ list_t::~list_t(void)
 {}
 
 
-void list_t::push_back(path_t& path)
+void list_t::push_back(const path_t& path)
 {
 	list_.push_back(path);
 }
 
-void list_t::push_front(path_t& path)
+void list_t::push_front(const path_t& path)
 {
 	list_.push_front(path);
 }
@@ -32,7 +32,7 @@ path_t list_t::pop_front(void)
 	return old;
 }
 
-path_t list_t::pop_at(unsigned index)
+path_t list_t::pop_at(const unsigned index)
 {
 	path_t algo;
 	return algo; //TODO
@@ -53,7 +53,7 @@ bool list_t::empty(void)
 	return list_.empty();
 }
 
-std::ostream& operator<<(std::ostream &os, const list_t &list)
+std::ostream& operator<<(std::ostream& os, const list_t& list)
 {
 	for(auto &i: list.list_)
 		os << i << std::endl;

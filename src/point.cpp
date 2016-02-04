@@ -20,17 +20,27 @@ unsigned& point_t::y(void)
 	return y_;
 }
 
-bool point_t::operator==(point_t point)
+unsigned point_t::x(void) const
+{
+	return x_;
+}
+
+unsigned point_t::y(void) const
+{
+	return y_;
+}
+
+bool point_t::operator==(const point_t& point) const
 {
 	return x_==point.x() && y_ == point.y();
 }
 
-bool point_t::operator!=(point_t point)
+bool point_t::operator!=(const point_t& point) const
 {
 	return x_!=point.x() || y_ != point.y();
 }
 
-point_t point_t::operator+(dir_t direction)
+point_t point_t::operator+(const dir_t& direction) const
 {
 	point_t new_point(x_, y_);
 	switch(direction){
