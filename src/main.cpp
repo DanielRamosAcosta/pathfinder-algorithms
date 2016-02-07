@@ -7,9 +7,9 @@
 /*
 	breadth = 0,
 	depth = 1,
-	escalada = 2,
-	primero_el_mejor = 3,
-	coste_uniforme = 4,
+	hill_climbing = 2,
+	bfs = 3,
+	ucs = 4,
 	coste_uniforme_subestimacion = 5,
 	coste_uniforme_dinamico = 6,
 	a_estrella = 7
@@ -19,11 +19,11 @@
 int main(void){
 	maze_t maze(40,40);
 	agent_t robot(maze);
-	std::cout << "Using strategy: hill_climbing" << std::endl;
-	//unsigned seed = common::random();
-	unsigned seed = 749982606;
+	std::cout << "Using strategy: breadth" << std::endl;
+	unsigned seed = common::random();
+	//unsigned seed = 742982606;
 	std::cout << "Using seed: " << seed << std::endl;
 	maze.generate(seed);
-	robot.solve(algorithm::hill_climbing);
+	robot.solve(algorithm::breadth);
 	std::cout << maze << std::endl;
 }

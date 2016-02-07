@@ -12,8 +12,8 @@ enum algorithm{
 	breadth = 0,
 	depth = 1,
 	hill_climbing = 2,
-	primero_el_mejor = 3,
-	coste_uniforme = 4,
+	bfs = 3,
+	ucs = 4,
 	coste_uniforme_subestimacion = 5,
 	coste_uniforme_dinamico = 6,
 	a_estrella = 7
@@ -51,13 +51,13 @@ public:
 	*/
 	void hill_climbing(void);
 	void append_sorted_front(list_t& paths, path_t path);
+
+	void bfs(void);
+	void append_and_sort_by_h(list_t& paths, path_t path);
+
+	void ucs(void);
+	void append_and_sort_by_g(list_t& paths, path_t path);
 	/*
-	void primero_el_mejor(void);
-	void anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
-
-	void coste_uniforme(void);
-	void anadir_descendientes_y_ordenar_segun_coste_acumulado(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
-
 	void coste_uniforme_subestimacion(void);
 	void anadir_descendientes_y_ordenar_segun_coste_total_estimado(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
 
