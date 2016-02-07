@@ -11,7 +11,7 @@
 enum algorithm{
 	breadth = 0,
 	depth = 1,
-	escalada = 2,
+	hill_climbing = 2,
 	primero_el_mejor = 3,
 	coste_uniforme = 4,
 	coste_uniforme_subestimacion = 5,
@@ -39,15 +39,19 @@ public:
 	void push_front_childs(list_t& paths, path_t path);
 
 	//Búsquedas usando una función heurística (por proximidad al objetivo)
-	double h(point_t origen);
+
+	double h(path_t& path);
+	double g(path_t& path);
+	double f(path_t& path);
+	/*
 	void sort_by_heuristic(std::deque<trayectoria_t>& trayectorias);
 	void sort_by_acumulated_cost(std::deque<trayectoria_t>& trayectorias);
 	void sort_by_acumulated_total_estimated_cost(std::deque<trayectoria_t>& trayectorias);
 	void imprime(std::deque<trayectoria_t> lista_trayectorias);
-
-	void escalada(void);
-	void anadir_descendientes_al_principio_ordenados(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
-
+	*/
+	void hill_climbing(void);
+	void append_sorted_front(list_t& paths, path_t path);
+	/*
 	void primero_el_mejor(void);
 	void anadir_descendientes_y_ordenar(std::deque<trayectoria_t>& lista_trayectorias, trayectoria_t trayectoria);
 
@@ -68,4 +72,5 @@ public:
 	// void ramificar_y_anadir_abierta(std::deque<trayectoria_t>& trayectorias_abiertas, trayectoria_t& ramificaciones);
 	// void eliminar_trayectorias_equivalentes(std::deque<trayectoria_t>& trayectorias_abiertas, std::deque<trayectoria_t>& trayectorias_cerradas);
 	// void insertar_buscando_similares_y_eliminando_la_de_mayor_coste(std::deque<trayectoria_t>& lista_tra, trayectoria_t trayectoria);
+	*/
 };

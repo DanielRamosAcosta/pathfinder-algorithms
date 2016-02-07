@@ -45,12 +45,28 @@ path_t& list_t::front(void)
 
 void list_t::sort(void)
 {
-
+	for(std::size_t i = 0; i < list_.size(); i++){
+		std::size_t min = i;
+		for(std::size_t j = i + 1; j < list_.size(); j++)
+			if(list_[j].cost() < list_[min].cost())
+				min = j;
+		std::swap(list_[i], list_[min]);
+	}
 }
 
 bool list_t::empty(void)
 {
 	return list_.empty();
+}
+
+unsigned list_t::size(void)
+{
+	return list_.size();
+}
+
+path_t& list_t::operator[](const unsigned index)
+{
+	return list_[index];
 }
 
 std::ostream& operator<<(std::ostream& os, const list_t& list)

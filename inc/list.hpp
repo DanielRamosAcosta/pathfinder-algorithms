@@ -23,6 +23,9 @@ public:
 
 	void sort(void);
 	bool empty(void);
+	unsigned size(void);
 
-	friend std::ostream& operator<<(std::ostream& , const list_t&);
+	path_t& operator[](const unsigned);
+
+	friend std::ostream& operator<<(std::ostream&, const list_t&);
 };

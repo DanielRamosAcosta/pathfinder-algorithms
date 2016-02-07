@@ -9,7 +9,7 @@ class path_t{
 private:
 	node_t* start_;
 	node_t* end_;
-	unsigned cost_;
+	double cost_;
 public:
 	path_t(void);
 	~path_t(void);
@@ -23,8 +23,8 @@ public:
 	path_t& operator=(const path_t&);
 
 	unsigned size(void) const;
-	unsigned& cost(void);
-	unsigned acumulated_cost(void) const;
+	double& cost(void);
+	double acumulated_cost(void) const;
 
 	bool is(const point_t&);
 

@@ -17,10 +17,13 @@
 */
 
 int main(void){
-	maze_t maze(20,20);
+	maze_t maze(40,40);
 	agent_t robot(maze);
-	std::cout << "Siguiendo la estrategia: breadth" << std::endl;
-	maze.generate(4);
-	robot.solve(algorithm::breadth);
+	std::cout << "Using strategy: hill_climbing" << std::endl;
+	//unsigned seed = common::random();
+	unsigned seed = 749982606;
+	std::cout << "Using seed: " << seed << std::endl;
+	maze.generate(seed);
+	robot.solve(algorithm::hill_climbing);
 	std::cout << maze << std::endl;
 }

@@ -14,12 +14,12 @@ void agent_t::solve(unsigned mode)
 	switch(mode){
 		case algorithm::breadth: breadth(); break;
 		case algorithm::depth: depth(); break;
-		case algorithm::escalada: escalada(); break;
-		case algorithm::primero_el_mejor: primero_el_mejor(); break;
-		case algorithm::coste_uniforme: coste_uniforme(); break;
-		case algorithm::coste_uniforme_subestimacion: coste_uniforme_subestimacion(); break;
-		case algorithm::coste_uniforme_dinamico: coste_uniforme_dinamico(); break;
-		case algorithm::a_estrella: a_estrella(); break;
+		case algorithm::hill_climbing: hill_climbing(); break;
+		//case algorithm::primero_el_mejor: primero_el_mejor(); break;
+		//case algorithm::coste_uniforme: coste_uniforme(); break;
+		//case algorithm::coste_uniforme_subestimacion: coste_uniforme_subestimacion(); break;
+		//case algorithm::coste_uniforme_dinamico: coste_uniforme_dinamico(); break;
+		//case algorithm::a_estrella: a_estrella(); break;
 	}
 }
 
@@ -44,7 +44,7 @@ void agent_t::push_back_childs(list_t& paths, path_t path)
 	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		point_t last = path.last();
 		dir_t direction = static_cast<dir_t>(i);
-		last = last + direction;
+		last = last + direction; //End of initialization, in last we have the looking node
 
 		if(maze_.at(last) != tile_t::obstacle){
 			if(!path.is(last)){
@@ -78,8 +78,8 @@ void agent_t::push_front_childs(list_t& paths, path_t path)
 	for(int i = dir_t::n; i <= dir_t::w; i+=2){
 		point_t last = path.last();
 		dir_t direction = static_cast<dir_t>(i);
+		last = last + direction; //End of initialization, in last we have the looking node
 
-		last = last + direction;
 		if(maze_.at(last) != tile_t::obstacle){
 			if(!path.is(last)){
 				maze_.at(last) = tile_t::marked;
@@ -91,11 +91,64 @@ void agent_t::push_front_childs(list_t& paths, path_t path)
 	}
 }
 
-double agent_t::h(point_t origen)
+double agent_t::h(path_t& path)
 {
-	return (sqrt(((origen.x()-end_.x())*(origen.x()-end_.x()) + (origen.y()-end_.y())*(origen.y()-end_.y()))));
+	return (sqrt(((path.last().x()-end_.x())*(path.last().x()-end_.x()) + (path.last().y()-end_.y())*(path.last().y()-end_.y()))));
 }
 
+double agent_t::g(path_t& path)
+{
+	return path.acumulated_cost();
+}
+
+double agent_t::f(path_t& path)
+{
+	return g(path)+h(path);
+}
+
+void agent_t::hill_climbing(void)
+{
+	list_t paths;
+	path_t initial_path;
+	initial_path.push(start_);
+	paths.push_back(initial_path);
+
+	while(!paths.empty() && (paths.front().last() != end_ )){
+		auto path = paths.pop_front();
+		append_sorted_front(paths, path);
+	}
+	for(unsigned i = 0; i < paths.front().size(); i++){
+		maze_.at(paths.front()[i]) = tile_t::path;
+	}
+}
+
+void agent_t::append_sorted_front(list_t& paths, path_t path)
+{
+	list_t new_paths;
+	for(int i = dir_t::n; i <= dir_t::w; i+=2){
+		point_t last = path.last();
+		dir_t direction = static_cast<dir_t>(i);
+		last = last + direction; //End of initialization, in last we have the looking node
+
+		if(maze_.at(last) != tile_t::obstacle){
+			if(!path.is(last)){
+				maze_.at(last) = tile_t::marked;
+				path_t dummy = path;
+				dummy.push(last);
+				new_paths.push_back(dummy); //We add the new paths to a temporaly list
+			}
+		}
+	}
+	for(unsigned i = 0; i < new_paths.size(); i++){
+		new_paths[i].cost()+=h(new_paths[i]); //We update the cost to the h(x) value of each path
+	}
+	new_paths.sort(); //We sort the list
+	while(!new_paths.empty()){ //We append the new items of the list to the main list
+		paths.push_front(new_paths.pop_back());
+	}
+}
+
+/*
 void agent_t::sort_by_heuristic(std::deque<trayectoria_t>& trayectorias)
 {
 	for(std::size_t i = 0; i < trayectorias.size(); i++){
@@ -390,4 +443,4 @@ void agent_t::a_estrella(void)
 		for(unsigned i = 0; i < trayectorias_abiertas.front().size(); i++){
 			maze_.at(trayectorias_abiertas.front()[i].x(), trayectorias_abiertas.front()[i].y()) = tile_t::path;
 		}
-}
+}*/

@@ -97,14 +97,14 @@ unsigned path_t::size(void) const
 	return sz;
 }
 
-unsigned& path_t::cost(void)
+double& path_t::cost(void)
 {
 	return cost_;
 }
 
-unsigned path_t::acumulated_cost(void) const
+double path_t::acumulated_cost(void) const
 {
-	unsigned cost = 0;
+	double cost = 0;
 	node_t* ptr = start_;
 	while(ptr != nullptr){
 		cost += ptr->cost();
